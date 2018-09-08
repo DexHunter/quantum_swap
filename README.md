@@ -1,4 +1,8 @@
-## Atomic Swap Script with Qtum and Bitcoin
+## Atomic Swap Script with Qtum and Bitcoin (Abandoned)
+
+PLEASE CHECK [SWAP_SCRIPT](https://github.com/DexHunter/swap_script)!
+
+## Background
 
 Suppose A has a unit of qtum and B has b unit of bitcoin and they want to exchange.
 

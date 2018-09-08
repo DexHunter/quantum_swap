@@ -62,9 +62,18 @@ console.log(lock_time)
 // STEP 1 CREATE SECRET
 var secret = new crypto.Random.getRandomBuffer(8);
 var H_S = new crypto.Hash.sha256ripemd160(secret);
+
 console.log(secret)
 console.log(H_S)
-console.log(typeof(H_S))
+
+const util = require('util')
+
+console.log(util.inspect(H_S, {showHidden: false, depth: null}))
+console.log(util.inspect(secret, {showHidden: false, depth: null}))
+console.log(util.inspect(H_S, false, null, true /* enable colors */))
+console.log(util.inspect(secret, false, null, true /* enable colors */))
+
+
 
 var address = new Address.fromString('2MxLCge4KshytFpprTPweb8zPsmG6nhAcun');
 console.log(address)
@@ -94,19 +103,29 @@ assert(script.toString() === 'OP_2SWAP OP_IF OP_NOT 4 0xbacacafe');
 console.log(script.toString());
 
 
+// var test_script = new Script()
+//     .add(Opcode.OP_IF)
+//     .add(now+lock_time*2)
+//     .add(Opcode.OP_CHECKLOCKTIMEVERIFY)
+//     .add(Opcode.OP_DROP)
+//     .add(B_b)
+//     .add(Opcode.OP_CHECKSIG)
+//     .add(Opcode.OP_ELSE)
+//     .add(Opcode.OP_HASH160)
+//     .add(H_S)
+//     .add(Opcode.OP_EQUALVERIFY)
+//     .add(A_a)
+//     .add(Opcode.OP_CHECKSIG)
+//     .add(Opcode.OP_ENDIF);
+//
+// console.log(test_script)
+//
 var test_script = new Script()
-    .add(Opcode.OP_IF)
-    .add(now+lock_time*2)
     .add(Opcode.OP_CHECKLOCKTIMEVERIFY)
+    .prepend(now+lock_time*2)
     .add(Opcode.OP_DROP)
-    .add(B_b)
-    .add(Opcode.OP_CHECKSIG)
-    .add(Opcode.OP_ELSE)
-    .add(Opcode.OP_HASH160)
-    .add(H_S)
-    .add(Opcode.OP_EQUALVERIFY)
-    .add(A_a)
-    .add(Opcode.OP_CHECKSIG)
-    .add(Opcode.OP_ENDIF);
+    .add(Opcode.OP_DUP)
+    .add(Opcode.HASH160)
+    .prepend(H_S)
 
 console.log(test_script)
